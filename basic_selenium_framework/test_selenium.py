@@ -16,14 +16,25 @@ class DuckDuckGoTestCase(testcases.SeleniumTestCase):
 class TestBasic(DuckDuckGoTestCase):
 
     def test_search(self):
+        """
+        Description: Test search functionality
+
+        """
+        # step: Search for Selenium
         results = self.search('Selenium')
 
+        # assert: Title contains Selenium
         assert 'Selenium' in self.driver.title 
+        # assert: Results contain Selenium
         assert 'Selenium' in results.text
 
 class TestGenerator(DuckDuckGoTestCase):
 
     def test_search(self):
+        """
+        Description: Generate multiple search tests
+
+        """
         for search_term in ['Python', 'Selenium', 'San Francisco', 'Sauce Labs']:
             yield self.verify_search, search_term
 
