@@ -1,4 +1,8 @@
 {
     "endpoint": "http://duckduckgo.com",
-    "timeout": 10
+    "timeout": 10,
+    "use_sauce": false,
+    "sauce_username": "my_username",
+    "sauce_access_key": "accesske-y012-3456-789a-bcdef0123456",
+    "sauce_browser": "INTERNETEXPLORER"
 }
