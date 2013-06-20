@@ -10,6 +10,7 @@ class SeleniumTestCase(object):
     def setup(self):
         if config['use_sauce']:
             desired_capabilities = getattr(webdriver.DesiredCapabilities, config['sauce_browser'])
+            desired_capabilities['name'] = '%s.%s.?' % (self.__module__, self.__class__.__name__)
             self.driver = webdriver.Remote(
                 desired_capabilities=desired_capabilities,
                 command_executor="http://%s:%s@ondemand.saucelabs.com:80/wd/hub" % (
