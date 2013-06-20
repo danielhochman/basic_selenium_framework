@@ -1,18 +1,31 @@
 from selenium import webdriver
+import simplejson as json
+import urlparse
+
+_multiprocess_shared_ = True
+
+def setup():
+    global config
+    with open('config.json') as f:
+        config = json.load(f)
 
 class SeleniumTestCase(object):
 
     def setup(self):
         self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(config['timeout'])
 
     def teardown(self):
         self.driver.quit()
 
+    def get_path(self, path):
+        url = urlparse.urljoin(config['endpoint'], path)
+        self.driver.get(url)
+
 class TestBasic(SeleniumTestCase):
 
     def test_search(self):
-        self.driver.get('http://duckduckgo.com')
+        self.get_path('/')
 
         search_box = self.driver.find_element_by_name('q')
         search_box.send_keys('Selenium')
@@ -30,7 +43,7 @@ class TestGenerator(SeleniumTestCase):
             yield self.verify_search, search_term
 
     def verify_search(self, search_term):
-        self.driver.get('http://duckduckgo.com')
+        self.get_path('/')
 
         search_box = self.driver.find_element_by_name('q')
         search_box.send_keys(search_term)
