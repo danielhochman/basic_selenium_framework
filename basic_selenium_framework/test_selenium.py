@@ -43,3 +43,10 @@ class TestGenerator(DuckDuckGoTestCase):
 
         assert search_term in self.driver.title
         assert search_term in results.text
+
+class TestCalculator(DuckDuckGoTestCase):
+
+    def test_calculator(self):
+        self.search('3 + 3')
+        
+        assert '= 6' in self.driver.find_element_by_id('zero_click').text
