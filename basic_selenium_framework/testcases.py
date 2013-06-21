@@ -17,6 +17,7 @@ class SeleniumTestCase(object):
                     config['sauce_username'], config['sauce_access_key']
                 )
             )
+            print 'Job URL: https://saucelabs.com/tests/%s\n' % self.driver.session_id
         else:
             self.driver = webdriver.Firefox()
 
@@ -27,9 +28,6 @@ class SeleniumTestCase(object):
             'class': self.__class__.__name__,
             'job_id': self.driver.session_id
         }
-        if config['use_sauce']:
-            test_header['Job URL'] = "https://saucelabs.com/tests/%s" % self.driver.session_id
-
         print "### testinfo", json.dumps(test_header, indent=2), "\n###"
 
     def teardown(self):
