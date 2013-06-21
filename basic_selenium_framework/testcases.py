@@ -8,13 +8,6 @@ with open('config.json') as f:
 class SeleniumTestCase(object):
 
     def setup(self):
-        test_header = { 
-            'module': self.__module__,
-            'class': self.__class__.__name__,
-            'job_id': self.driver.session_id
-        }
-        print "### testinfo", json.dumps(test_header, indent=2), "\n###"
-
         if config['use_sauce']:
             desired_capabilities = getattr(webdriver.DesiredCapabilities, config['sauce_browser'])
             desired_capabilities['name'] = '%s.%s.?' % (self.__module__, self.__class__.__name__)
@@ -24,12 +17,18 @@ class SeleniumTestCase(object):
                     config['sauce_username'], config['sauce_access_key']
                 )
             )
-            print 'Job URL: https://saucelabs.com/tests/%s' % self.driver.session_id
+            print 'Job URL: https://saucelabs.com/tests/%s\n' % self.driver.session_id
         else:
             self.driver = webdriver.Firefox()
 
         self.driver.implicitly_wait(config['timeout'])
 
+        test_header = { 
+            'module': self.__module__,
+            'class': self.__class__.__name__,
+            'job_id': self.driver.session_id
+        }
+        print "### testinfo", json.dumps(test_header, indent=2), "\n###"
 
     def teardown(self):
         self.driver.quit()
